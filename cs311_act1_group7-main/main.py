@@ -1,8 +1,8 @@
-import sys
-import pandas as pd
-import numpy as np
-from scipy import stats
-import matplotlib.pyplot as plt
+import sys as SYS
+import pandas as PD
+import numpy as NP
+from scipy import stats as STATS
+import matplotlib.pyplot as PLT
 
 csv_files = {
     '2010': '2010.csv',
@@ -42,12 +42,12 @@ def mainMenu(csv_files):
 
         elif option == '6':
             print("\nProgram will now Exit...")
-            sys.exit(0)
+            SYS.exit(0)
         
         elif option in year_options:
             year = year_options[option]
             csv_file = csv_files[year]
-            df = pd.read_csv(csv_file)  # Load the CSV file into a DataFrame
+            df = PD.read_csv(csv_file)  # Load the CSV file into a DataFrame
             if option_selection(df, year):
                 continue  # If option 4 is chosen in option_selection, it will return to main_menu
             else:
@@ -58,7 +58,7 @@ def mainMenu(csv_files):
 
 # This function will calculate the Growth Percentage between each year.
 def displayGrowthPercentage():
-    df_total = pd.read_csv('total.csv')
+    df_total = PD.read_csv('total.csv')
     
     # Extract the total population data for the last row
     total_2010 = df_total.iloc[-1]['Population 2010 Census']
@@ -80,19 +80,19 @@ def displayGrowthPercentage():
 
 # This function will predict the 2025 Population
 def predictPopulation2025():
-    df_total = pd.read_csv('total.csv')
+    df_total = PD.read_csv('total.csv')
     
     total_2010 = df_total.iloc[-1]['Population 2010 Census']
     total_2015 = df_total.iloc[-1]['Population 2015 Census']
     total_2020 = df_total.iloc[-1]['Population 2020 Census']
     
     # Create arrays for the years and populations for fitting the model
-    years = np.array([2010, 2015, 2020])
-    populations = np.array([total_2010, total_2015, total_2020])
+    years = NP.array([2010, 2015, 2020])
+    populations = NP.array([total_2010, total_2015, total_2020])
     
     # Fit a linear model
-    coefficients = np.polyfit(years, populations, 1)  # 1 means linear
-    poly = np.poly1d(coefficients)
+    coefficients = NP.polyfit(years, populations, 1)  # 1 means linear
+    poly = NP.poly1d(coefficients)
     
     # Use the model to predict the population in 2025
     predicted_population_2025 = poly(2025)
@@ -105,10 +105,10 @@ def predictPopulation2025():
 # This function will display the mean, median and mode of the selected year census 
 def displayDataSummary(dataframe, year):
     df_population = dataframe['Population']
-    mean = np.mean(df_population)
-    median = np.median(df_population)
-    mode = stats.mode(df_population)
-    median = np.median(df_population)
+    mean = NP.mean(df_population)
+    median = NP.median(df_population)
+    mode = STATS.mode(df_population)
+    median = NP.median(df_population)
 
     print(f"Mean of Year {year}: {mean}")
     print(f"Median of Year {year}: {median}")
@@ -122,35 +122,35 @@ def displayPopulationPieChart(dataframe, year):
     names = list(dataframe['Name'][:top_n]) + ['Other Barangays'] 
     populations = list(dataframe['Population'][:top_n]) + [other]
 
-    plt.figure(figsize=(12, 10))
-    plt.pie(populations, labels=names, autopct='%1.1f%%', startangle=140)
-    plt.title(f"Population Distribution of Baguio's Top {top_n} Barangays and Other Barangays in the Year {year} Census")
-    plt.axis('equal')
-    plt.show()
+    PLT.figure(figsize=(12, 10))
+    PLT.pie(populations, labels=names, autopct='%1.1f%%', startangle=140)
+    PLT.title(f"Population Distribution of Baguio's Top {top_n} Barangays and Other Barangays in the Year {year} Census")
+    PLT.axis('equal')
+    PLT.show()
 
 # This function will display a Bar Graph of Top 5 highest population of the chosen year census.
 def displayTop5BarGraph(dataframe, year):
     top_5 = dataframe.sort_values(by='Population', ascending=False).head(5)
     
-    plt.figure(figsize=(10, 6))
-    plt.barh(top_5['Name'], top_5['Population'], color='blue')
-    plt.xlabel('Population')
-    plt.ylabel('Barangay')
-    plt.title(f'Top 5 Barangays with Highest Population in {year} Census')
-    plt.gca().invert_yaxis()
-    plt.show()
+    PLT.figure(figsize=(10, 6))
+    PLT.barh(top_5['Name'], top_5['Population'], color='blue')
+    PLT.xlabel('Population')
+    PLT.ylabel('Barangay')
+    PLT.title(f'Top 5 Barangays with Highest Population in {year} Census')
+    PLT.gca().invert_yaxis()
+    PLT.show()
 
 # This function will display a Bar Graph of Top 5 lowest population of the chosen year census.
 def displayBottom5BarGraph(dataframe, year):
     bottom_5 = dataframe.sort_values(by='Population', ascending=True).head(5)
     
-    plt.figure(figsize=(10, 6))
-    plt.barh(bottom_5['Name'], bottom_5['Population'], color='red')
-    plt.xlabel('Population')
-    plt.ylabel('Barangay')
-    plt.title(f'Top 5 Barangays with Lowest Population in {year} Census')
-    plt.gca().invert_yaxis()
-    plt.show()
+    PLT.figure(figsize=(10, 6))
+    PLT.barh(bottom_5['Name'], bottom_5['Population'], color='red')
+    PLT.xlabel('Population')
+    PLT.ylabel('Barangay')
+    PLT.title(f'Top 5 Barangays with Lowest Population in {year} Census')
+    PLT.gca().invert_yaxis()
+    PLT.show()
 
 # Option Selection per Year
 def option_selection(df, year):
