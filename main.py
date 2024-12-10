@@ -91,7 +91,41 @@ def displayGrowthPercentage():
     print(f"Growth from 2015 to 2020: {growth_2015_to_2020:.2f}%")
     print(f"Growth from 2010 to 2020: {growth_2010_to_2020:.2f}%\n")
 
-# This function will predict the 2025 Population
+""" 
+    Predicts the population for the year 2025 using a linear regression model.
+
+    This method uses population data from the 2010, 2015, and 2020 censuses
+    to predict the population for 2025. It calculates the growth percentage 
+    from 2020 to the predicted 2025 population.
+
+    Parameters
+    ----------
+    None: This function does not accept any parameters.
+
+    Returns
+    -------
+    None: Outputs the predicted population and growth percentage to the console.
+
+    Raises
+    ------
+    FileNotFoundError:
+        If 'total.csv' is not found in the directory.
+    KeyError:
+        If the required columns ('Population 2010 Census', 'Population 2015 Census', 
+        'Population 2020 Census') are not present in the 'total.csv' file.
+    ValueError:
+        If the population data contains invalid or missing values.
+
+    Side Effects
+    ------------
+    Prints the predicted population and growth percentage to the console.
+
+    Example
+    -------
+    >>> predict_population_2025()
+    Predicted Population in 2025: 400000
+    Growth from 2020 to 2025 Predicted Population: 8.50%
+    """
 def predictPopulation2025():
     df_total = PD.read_csv('total.csv')
     
