@@ -11,7 +11,7 @@ csv_files = {
 }
 
 # Main Menu
-def main_menu(csv_files):
+def mainMenu(csv_files):
     year_options = {
         '1': '2010',
         '2': '2015',
@@ -34,11 +34,11 @@ def main_menu(csv_files):
 
         if option == '4':
             print("\nGROWTH PERCENTAGE PER CENSUS:")
-            display_growth_percentage()
+            displayGrowthPercentage()
 
         elif option == '5':
             print("\n2025 POPULATION PREDICTION:")
-            predict_population_2025()
+            predictPopulation2025()
 
         elif option == '6':
             print("\nProgram will now Exit...")
@@ -48,7 +48,7 @@ def main_menu(csv_files):
             year = year_options[option]
             csv_file = csv_files[year]
             df = pd.read_csv(csv_file)  # Load the CSV file into a DataFrame
-            if option_selection(df, year):
+            if optionSelection(df, year):
                 continue  # If option 6 is chosen in option_selection, go back to main_menu
             else:
                 break  # Exit the loop if the user chooses a year and proceeds to option_selection
@@ -70,7 +70,7 @@ def main_menu(csv_files):
     Returns:
         None
     """
-def display_growth_percentage():
+def displayGrowthPercentage():
     df_total = pd.read_csv('total.csv')
     
     # Extract the total population data for the last row
@@ -92,7 +92,7 @@ def display_growth_percentage():
     print(f"Growth from 2010 to 2020: {growth_2010_to_2020:.2f}%\n")
 
 # This function will predict the 2025 Population
-def predict_population_2025():
+def predictPopulation2025():
     df_total = pd.read_csv('total.csv')
     
     total_2010 = df_total.iloc[-1]['Population 2010 Census']
@@ -119,7 +119,7 @@ def predict_population_2025():
           f"{growth_2020_to_2025:.2f}%\n")
 
 # This function will display the mean, median, and mode of the selected year census
-def display_data_summary(dataframe, year):
+def displayDataSummary(dataframe, year):
     df_population = dataframe['Population']
     mean = np.mean(df_population)
     median = np.median(df_population)
@@ -131,7 +131,7 @@ def display_data_summary(dataframe, year):
 
 # This function displays a pie chart showing the population distribution across
 # the top 30 barangays and combines all others into 'Other Barangays'
-def display_population_pie_chart(dataframe, year):
+def displayPopulationPieChart(dataframe, year):
     dataframe = dataframe.sort_values(by='Population', ascending=False)
     top_n = 30  
     other = dataframe[top_n:].sum()['Population']
@@ -148,7 +148,7 @@ def display_population_pie_chart(dataframe, year):
 
 # This function will display a Bar Graph of the Top 5 highest populations of the
 # chosen year census.
-def display_top_5_bar_graph(dataframe, year):
+def displayTop5BarGraph(dataframe, year):
     top_5 = dataframe.sort_values(by='Population', ascending=False).head(5)
     
     plt.figure(figsize=(10, 6))
@@ -161,7 +161,7 @@ def display_top_5_bar_graph(dataframe, year):
 
 # This function will display a Bar Graph of the Top 5 lowest populations of the
 # chosen year census.
-def display_bottom_5_bar_graph(dataframe, year):
+def displayBottom5BarGraph(dataframe, year):
     bottom_5 = dataframe.sort_values(by='Population', ascending=True).head(5)
     
     plt.figure(figsize=(10, 6))
@@ -173,7 +173,7 @@ def display_bottom_5_bar_graph(dataframe, year):
     plt.show()
 
 # Option Selection per Year
-def option_selection(df, year):
+def optionSelection(df, year):
     while True:
         print("\n-------------------------")
         print(f"       {year} CENSUS       ")
@@ -194,19 +194,19 @@ def option_selection(df, year):
 
         elif option == '2':
             print(f"\nData Summary of Year {year} Census:\n")
-            display_data_summary(df, year)
+            displayDataSummary(df, year)
 
         elif option == '3':
             print(f"\nDisplaying Population Pie Chart:\n")
-            display_population_pie_chart(df, year)
+            displayPopulationPieChart(df, year)
 
         elif option == '4':
             print(f"\nDisplaying Top 5 Highest Population Bar Graph:\n")
-            display_top_5_bar_graph(df, year)
+            displayTop5BarGraph(df, year)
 
         elif option == '5':
             print(f"\nDisplaying Top 5 Lowest Population Bar Graph:\n")
-            display_bottom_5_bar_graph(df, year)
+            displayBottom5BarGraph(df, year)
 
         elif option == '6':
             return True  # Option to go back to Main Menu
@@ -215,4 +215,4 @@ def option_selection(df, year):
             print("Please choose a valid number.")
 
 # Main Menu
-main_menu(csv_files)
+mainMenu(csv_files)
