@@ -56,7 +56,20 @@ def main_menu(csv_files):
         else:
             print("Please choose a valid option from the menu.\n")
 
-# This function will calculate the Growth Percentage between each year.
+    """
+    This function calculates the population growth percentage between the years 2010, 2015, and 2020.
+    It reads population data from a CSV file, extracts the total population for each year, and calculates
+    the growth rate between 2010-2015, 2015-2020, and 2010-2020. It then prints the results.
+
+    Steps:
+        1. Load the CSV data using pandas.
+        2. Extract the total population for 2010, 2015, and 2020.
+        3. Calculate the growth percentage for each year range.
+        4. Print the results.
+    
+    Returns:
+        None
+    """
 def display_growth_percentage():
     df_total = pd.read_csv('total.csv')
     
