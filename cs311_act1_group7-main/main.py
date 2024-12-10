@@ -49,9 +49,11 @@ def mainMenu(csv_files):
             csv_file = csv_files[year]
             df = PD.read_csv(csv_file)  # Load the CSV file into a DataFrame
             if option_selection(df, year):
-                continue  # If option 4 is chosen in option_selection, it will return to main_menu
+                continue  # If option 4 is chosen in option_selection,
+                          # it will return to main_menu
             else:
-                break  # Exit the loop if the user chooses a year and will proceed to option_selection
+                break  # Exit the loop if the user chooses a year 
+                       # and will proceed to option_selection
         
         else:
             print("Please choose a valid option from the menu.\n")
@@ -97,12 +99,16 @@ def predictPopulation2025():
     # Use the model to predict the population in 2025
     predicted_population_2025 = poly(2025)
 
-    growth_2020_to_2025 = ((predicted_population_2025 - total_2020) / total_2020) * 100
+    growth_2020_to_2025 = (
+        (predicted_population_2025 - total_2020) / total_2020
+    ) * 100
     
     print(f"Predicted Population in 2025: {predicted_population_2025:.0f}")
-    print(f"Growth from 2020 to 2025 Predicted Population: {growth_2020_to_2025:.2f}%\n")
+    print(f"Growth from 2020 to 2025 Predicted Population: "
+          f"{growth_2020_to_2025:.2f}%\n")
 
-# This function will display the mean, median and mode of the selected year census 
+# This function will display the mean, median and mode of the
+# selected year census 
 def displayDataSummary(dataframe, year):
     df_population = dataframe['Population']
     mean = NP.mean(df_population)
@@ -114,7 +120,8 @@ def displayDataSummary(dataframe, year):
     print(f"Median of Year {year}: {median}")
     print(f"Mode of Year {year}: {mode}")
 
-# This function displays a pie chart showing the population distribution across the top 30 barangays and combines all others into 'Other Barangays'
+# This function displays a pie chart showing the population distribution across
+# the top 30 barangays and combines all others into 'Other Barangays'
 def displayPopulationPieChart(dataframe, year):
     dataframe = dataframe.sort_values(by='Population', ascending=False)
     top_n = 30  
@@ -124,11 +131,14 @@ def displayPopulationPieChart(dataframe, year):
 
     PLT.figure(figsize=(12, 10))
     PLT.pie(populations, labels=names, autopct='%1.1f%%', startangle=140)
-    PLT.title(f"Population Distribution of Baguio's Top {top_n} Barangays and Other Barangays in the Year {year} Census")
+
+    PLT.title(f"Population Distribution of Baguio's Top {top_n} Barangays and "
+              f"Other Barangays in the Year {year} Census")
     PLT.axis('equal')
     PLT.show()
 
-# This function will display a Bar Graph of Top 5 highest population of the chosen year census.
+# This function will display a Bar Graph of Top 5 highest population of the
+# chosen year census.
 def displayTop5BarGraph(dataframe, year):
     top_5 = dataframe.sort_values(by='Population', ascending=False).head(5)
     
@@ -140,7 +150,8 @@ def displayTop5BarGraph(dataframe, year):
     PLT.gca().invert_yaxis()
     PLT.show()
 
-# This function will display a Bar Graph of Top 5 lowest population of the chosen year census.
+# This function will display a Bar Graph of Top 5 lowest population of the 
+# chosen year census.
 def displayBottom5BarGraph(dataframe, year):
     bottom_5 = dataframe.sort_values(by='Population', ascending=True).head(5)
     
