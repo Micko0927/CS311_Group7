@@ -1,5 +1,4 @@
 import sys
-import os
 import pandas as PD
 import numpy as NP
 from scipy import stats
@@ -13,10 +12,6 @@ csv_files = {
 
 # Main Menu
 def mainMenu(csv_files):
-    if not validateCSVFiles(csv_files):
-        print("\nError: One or more required CSV files are missing or invalid. Program cannot continue.")
-        sys.exit(1)
-
     year_options = {
         '1': '2010',
         '2': '2015',
@@ -252,25 +247,6 @@ def optionSelection(df, year):
         
         else:
             print("Please choose a valid number.")
-
-def validateCSVFiles(csv_files):
-    for year, file_path in csv_files.items():
-        if not os.path.isfile(file_path):
-            print(f"Error: The file for {year} ({file_path}) is missing.")
-            return False
-        
-        try:
-            df = PD.read_csv(file_path)
-            if 'Name' not in df.columns or 'Population' not in df.columns:
-                print(f"Error: The file for {year} ({file_path}) does not have the required columns.")
-                return False
-            
-        except Exception as e:
-            print(f"Error: Could not read the file for {year} ({file_path}). {e}")
-            return False
-        
-    print("All CSV files validated successfully.")
-    return True
 
 # Main Menu
 mainMenu(csv_files)
