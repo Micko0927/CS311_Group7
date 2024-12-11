@@ -254,6 +254,13 @@ def optionSelection(df, year):
             print("Please choose a valid number.")
 
 def validateCSVFiles(csv_files):
+"""
+This function validates that all CSV files meet specific requirements, 
+such as existing on the file system and containing the necessary 
+columns ('Name' and 'Population'). If any file fails the checks, 
+it will print an error message and stop further validation.
+"""
+
     for year, file_path in csv_files.items():
         if not os.path.isfile(file_path):
             print(f"Error: The file for {year} ({file_path}) is missing.")
