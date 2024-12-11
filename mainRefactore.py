@@ -197,7 +197,7 @@ def displayBarGraph(df, year, top):
     PLT.gca().invert_yaxis()
     PLT.show()
     
-    displayTop5BarGraph(df year, top=True)
+    displayTop5BarGraph(df, year, top=True)
 
     displayBottom5BarGraph(df, year, top=False)
     
