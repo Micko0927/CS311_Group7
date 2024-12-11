@@ -74,9 +74,7 @@ def displayGrowthPercentage():
     df_total = PD.read_csv('total.csv')
     
     # Extract the total population data for the last row
-    total_2010 = df_total.iloc[-1]['Population 2010 Census']
-    total_2015 = df_total.iloc[-1]['Population 2015 Census']
-    total_2020 = df_total.iloc[-1]['Population 2020 Census']
+    total_2010, total_2015, total_2020 = total(df_total)
     
     # Formula to calculate growth percent
     growth_2010_to_2015 = ((total_2015 - total_2010) / total_2010) * 100
@@ -90,6 +88,12 @@ def displayGrowthPercentage():
     print(f"Growth from 2010 to 2015: {growth_2010_to_2015:.2f}%")
     print(f"Growth from 2015 to 2020: {growth_2015_to_2020:.2f}%")
     print(f"Growth from 2010 to 2020: {growth_2010_to_2020:.2f}%\n")
+
+def new_func(df_total):
+    total_2010 = df_total.iloc[-1]['Population 2010 Census']
+    total_2015 = df_total.iloc[-1]['Population 2015 Census']
+    total_2020 = df_total.iloc[-1]['Population 2020 Census']
+    return total_2010,total_2015,total_2020
 
 """ 
     Predicts the population for the year 2025 using a linear regression model.
@@ -129,9 +133,7 @@ def displayGrowthPercentage():
 def predictPopulation2025():
     df_total = PD.read_csv('total.csv')
     
-    total_2010 = df_total.iloc[-1]['Population 2010 Census']
-    total_2015 = df_total.iloc[-1]['Population 2015 Census']
-    total_2020 = df_total.iloc[-1]['Population 2020 Census']
+    total_2010, total_2015, total_2020 = total(df_total)
     
     # Create arrays for the years and populations for fitting the model
     years = NP.array([2010, 2015, 2020])
@@ -151,6 +153,12 @@ def predictPopulation2025():
     print(f"Predicted Population in 2025: {predicted_population_2025:.0f}")
     print(f"Growth from 2020 to 2025 Predicted Population: "
           f"{growth_2020_to_2025:.2f}%\n")
+
+def total(df_total):
+    total_2010 = df_total.iloc[-1]['Population 2010 Census']
+    total_2015 = df_total.iloc[-1]['Population 2015 Census']
+    total_2020 = df_total.iloc[-1]['Population 2020 Census']
+    return total_2010,total_2015,total_2020
 
 # This function will display the mean, median, and mode of the selected year census
 def displayDataSummary(dataframe, year):
@@ -180,29 +188,19 @@ def displayPopulationPieChart(dataframe, year):
     PLT.axis('equal')
     PLT.show()
 
-# This function will display a Bar Graph of the Top 5 highest populations of the
+# This function will display a Bar Graph of the Top 5 and Bottom 5 highest populations of the
 # chosen year census.
-def displayTop5BarGraph(dataframe, year):
-    top_5 = dataframe.sort_values(by='Population', ascending=False).head(5)
-    
-    PLT.figure(figsize=(10, 6))
-    PLT.barh(top_5['Name'], top_5['Population'], color='blue')
-    PLT.xlabel('Population')
-    PLT.ylabel('Barangay')
-    PLT.title(f'Top 5 Barangays with Highest Population in {year} Census')
-    PLT.gca().invert_yaxis()
-    PLT.show()
 
-# This function will display a Bar Graph of the Top 5 lowest populations of the
-# chosen year census.
-def displayBottom5BarGraph(dataframe, year):
-    bottom_5 = dataframe.sort_values(by='Population', ascending=True).head(5)
-    
+def displayBarGraph(dataframe, year, top=True):
+    sorted_df = dataframe.sort_values(by='Popluation', ascending=not top).head(5)
+    color = 'green' if top else 'red'
+    title = f"Top 5" if top else "Bottom 5"
+
     PLT.figure(figsize=(10, 6))
-    PLT.barh(bottom_5['Name'], bottom_5['Population'], color='red')
+    PLT.barh(sorted_df['Name'], sorted_df['Population'], color='blue')
     PLT.xlabel('Population')
     PLT.ylabel('Barangay')
-    PLT.title(f'Top 5 Barangays with Lowest Population in {year} Census')
+    PLT.title(f'{title} Barangays with Highest Population in {year} Census')
     PLT.gca().invert_yaxis()
     PLT.show()
 
@@ -236,11 +234,11 @@ def optionSelection(df, year):
 
         elif option == '4':
             print(f"\nDisplaying Top 5 Highest Population Bar Graph:\n")
-            displayTop5BarGraph(df, year)
+            displayTop5BarGraph(df, year, top=True)
 
         elif option == '5':
             print(f"\nDisplaying Top 5 Lowest Population Bar Graph:\n")
-            displayBottom5BarGraph(df, year)
+            displayBottom5BarGraph(df, year, top=False)
 
         elif option == '6':
             return True  # Option to go back to Main Menu
